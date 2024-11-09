@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "History Access Extension",
+  "version": "1.0",
+  "description": "An extension to display browsing history on an extension page.",
+  "permissions": ["history", "tabs"],
+  "browser_action": {
+    "default_title": "History Access",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
