@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Fetching history data...");
   
   // Fetch recent history items
-  browser.history.search({ text: "", maxResults: 10 }).then((historyItems) => {
+  browser.history.search({ text: "", maxResults: 100 }).then((historyItems) => {
     console.log("History items fetched:", historyItems);
     historyItems.forEach((item) => {
       const row = document.createElement("tr");
