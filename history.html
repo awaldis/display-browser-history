@@ -37,12 +37,26 @@
       white-space: normal;
       word-break: break-all;
     }
+
+    /* Style for the favicon images */
+    .favicon {
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    /* Optional: Style for the title cell */
+    .title-cell {
+      display: flex;
+      align-items: center;
+    }
+
     /* Style for blank rows */
     .blank-row td {
       height: 10px;
-      background-color: #e0e0e0; /* Optional */
+      background-color: #e0e0e0;
     }
-
   </style>
 </head>
 <body>
@@ -51,7 +65,7 @@
     <colgroup>
       <col class="column-time">
       <col class="column-title">
-      <col>
+      <col class="column-url">
     </colgroup>
     <thead>
       <tr>
