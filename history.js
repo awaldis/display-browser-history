@@ -1,6 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
 
+  // Function to round down to the nearest minute
+  function roundDownToNearestMinute(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      0,
+      0
+    );
+  }
+
+  // Function to round up to the nearest minute
+  function roundUpToNearestMinute(date) {
+    if (date.getSeconds() === 0 && date.getMilliseconds() === 0) {
+      return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        0,
+        0
+      );
+    } else {
+      return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes() + 1,
+        0,
+        0
+      );
+    }
+  }
+
   // Function to load and display browsing sessions
   async function loadHistorySessions() {
     console.log("Loading history data...");
@@ -48,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
           } else {
             // Continue the current session
-            currentSession.endTime = item.lastVisitTime;
+            currentSession.startTime = item.lastVisitTime;
             currentSession.items.push(item);
           }
         }
@@ -60,13 +98,42 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Display the sessions
-      sessions.forEach((session, index) => {
-        // Convert startTime and endTime to readable dates
+      sessions.forEach((session) => {
+        // Convert startTime and endTime to Date objects
         const startDate = new Date(session.startTime);
         const endDate = new Date(session.endTime);
 
-        const startTimeStr = startDate.toLocaleString();
-        const endTimeStr = endDate.toLocaleString();
+        // Round times
+        const roundedStartDate = roundDownToNearestMinute(startDate);
+        const roundedEndDate = roundUpToNearestMinute(endDate);
+
+        // Formatting options
+        const timeOptions = {
+          hour: 'numeric',
+          minute: 'numeric'
+        };
+
+        const dateOptions = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        };
+
+        const startTimeStr = roundedStartDate.toLocaleTimeString(undefined, timeOptions);
+        const endTimeStr = roundedEndDate.toLocaleTimeString(undefined, timeOptions);
+
+        const startDateStr = roundedStartDate.toLocaleDateString(undefined, dateOptions);
+        const endDateStr = roundedEndDate.toLocaleDateString(undefined, dateOptions);
+
+        // Build session header text
+        let sessionHeaderText = '';
+        if (startDateStr === endDateStr) {
+          // Dates are the same, omit date
+          sessionHeaderText = `${startTimeStr} - ${endTimeStr}`;
+        } else {
+          // Dates are different, include dates
+          sessionHeaderText = `${startDateStr} ${startTimeStr} - ${endDateStr} ${endTimeStr}`;
+        }
 
         // Create a session header row
         const sessionHeaderRow = document.createElement("tr");
@@ -74,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const sessionHeaderCell = document.createElement("td");
         sessionHeaderCell.colSpan = 3; // Adjust based on the number of columns
-        sessionHeaderCell.textContent = `Session ${index + 1}: ${endTimeStr} - ${startTimeStr}`;
+        sessionHeaderCell.textContent = sessionHeaderText;
 
         sessionHeaderRow.appendChild(sessionHeaderCell);
         historyList.appendChild(sessionHeaderRow);
@@ -98,9 +165,9 @@ document.addEventListener("DOMContentLoaded", function () {
           const faviconImg = document.createElement("img");
           faviconImg.classList.add("favicon");
 
-        // Construct the favicon URL using Google's favicon service
-        const faviconUrl = "https://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(item.url);
-        faviconImg.src = faviconUrl;
+          // Construct the favicon URL using Google's favicon service
+          const faviconUrl = "https://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(item.url);
+          faviconImg.src = faviconUrl;
           faviconImg.alt = ""; // Decorative image
 
           // Create the title text node
