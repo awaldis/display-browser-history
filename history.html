@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Browsing History</title>
+  <title>Browsing History Sessions</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     table {
@@ -46,21 +46,28 @@
       margin-right: 5px;
     }
 
-    /* Optional: Style for the title cell */
+    /* Style for the title cell */
     .title-cell {
       display: flex;
       align-items: center;
     }
 
+    /* Style for session headers */
+    .session-header td {
+      background-color: #d0e0f0;
+      font-weight: bold;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
     /* Style for blank rows */
     .blank-row td {
       height: 10px;
-      background-color: #e0e0e0;
     }
   </style>
 </head>
 <body>
-  <h2>Your Browsing History</h2>
+  <h2>Your Browsing Sessions</h2>
   <table>
     <colgroup>
       <col class="column-time">
@@ -75,7 +82,7 @@
       </tr>
     </thead>
     <tbody id="historyList">
-      <!-- History items will be inserted here -->
+      <!-- Sessions and history items will be inserted here -->
     </tbody>
   </table>
   <script src="history.js"></script>
