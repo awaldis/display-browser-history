@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
           };
         } else {
           // Calculate the time gap between the current item and the previous one
-          const timeGap = currentSession.endTime - item.lastVisitTime;
+          const timeGap = previousItemTime - item.lastVisitTime;
 
           if (timeGap > 5 * 60 * 1000) {
             // Gap is more than 5 minutes, end the current session
@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             currentSession.items.push(item);
           }
         }
+        previousItemTime = item.lastVisitTime;        
       }
 
       // Add the last session if it exists
