@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       // Fetch recent history items
-      let historyItems = await browser.history.search({ text: "", maxResults: 1000 });
+      let historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: 300 });
       console.log("History items fetched:", historyItems);
 
       // Filter out items without a lastVisitTime
