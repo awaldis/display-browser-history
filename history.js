@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = 0; i < historyItems.length; i++) {
         const item = historyItems[i];
 
-        // If currentSession is null, start a new session
         if (!currentSession) {
+          // Start a new session
           currentSession = {
             startTime: item.lastVisitTime,
             endTime: item.lastVisitTime,
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             currentSession.items.push(item);
           }
         }
-        previousItemTime = item.lastVisitTime;        
+        previousItemTime = item.lastVisitTime;
       }
 
       // Add the last session if it exists
@@ -107,6 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Round times
         const roundedStartDate = roundDownToNearestMinute(startDate);
         const roundedEndDate = roundUpToNearestMinute(endDate);
+
+        // Calculate session duration in minutes
+        const durationMs = roundedEndDate - roundedStartDate;
+        const durationMinutes = Math.round(durationMs / (60 * 1000));
 
         // Formatting options
         const timeOptions = {
@@ -130,10 +134,10 @@ document.addEventListener("DOMContentLoaded", function () {
         let sessionHeaderText = '';
         if (startDateStr === endDateStr) {
           // Dates are the same, omit date
-          sessionHeaderText = `${startTimeStr} - ${endTimeStr}`;
+          sessionHeaderText = `${startTimeStr} - ${endTimeStr} (${durationMinutes} minutes)`;
         } else {
           // Dates are different, include dates
-          sessionHeaderText = `${startDateStr} ${startTimeStr} - ${endDateStr} ${endTimeStr}`;
+          sessionHeaderText = `${startDateStr} ${startTimeStr} - ${endDateStr} ${endTimeStr} (${durationMinutes} minutes)`;
         }
 
         // Create a session header row
