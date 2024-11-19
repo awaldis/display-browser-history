@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Calculate session duration in minutes
         const durationMs = roundedEndDate - roundedStartDate;
         const durationMinutes = Math.round(durationMs / (60 * 1000));
+        const durationText = durationMinutes === 1 ? 'minute' : 'minutes';
 
         // Formatting options
         const timeOptions = {
@@ -134,10 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
         let sessionHeaderText = '';
         if (startDateStr === endDateStr) {
           // Dates are the same, omit date
-          sessionHeaderText = `${startTimeStr} - ${endTimeStr} (${durationMinutes} minutes)`;
+          sessionHeaderText = `${startTimeStr} - ${endTimeStr} (${durationMinutes} ${durationText})`;
         } else {
           // Dates are different, include dates
-          sessionHeaderText = `${startDateStr} ${startTimeStr} - ${endDateStr} ${endTimeStr} (${durationMinutes} minutes)`;
+          sessionHeaderText = `${startDateStr} ${startTimeStr} - ${endDateStr} ${endTimeStr} (${durationMinutes} ${durationText})`;
         }
 
         // Create a session header row
