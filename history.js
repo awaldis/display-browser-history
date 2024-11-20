@@ -47,6 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
     historyList.innerHTML = "";
 
     try {
+      // Fetch the user-defined session interval (default to 5 minutes)
+      const storageResult = await browser.storage.local.get("sessionInterval");
+      const sessionInterval = storageResult.sessionInterval || 5;
+      console.log(`Using session interval: ${sessionInterval} minutes`);
+
       // Fetch recent history items
       let historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: 300 });
       console.log("History items fetched:", historyItems);
@@ -74,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
           // Calculate the time gap between the current item and the previous one
           const timeGap = previousItemTime - item.lastVisitTime;
 
-          if (timeGap > 5 * 60 * 1000) {
-            // Gap is more than 5 minutes, end the current session
+          if (timeGap > sessionInterval * 60 * 1000) {
+            // Gap is more than the user-defined interval, end the current session
             sessions.push(currentSession);
 
             // Start a new session

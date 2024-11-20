@@ -3,7 +3,7 @@
   "name": "History Access Extension",
   "version": "1.0",
   "description": "An extension to display browsing history on an extension page.",
-  "permissions": ["history", "tabs"],
+  "permissions": ["history", "tabs", "storage"],
   "browser_action": {
     "default_title": "History Access",
     "default_icon": {
