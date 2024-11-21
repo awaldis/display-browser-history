@@ -5,6 +5,20 @@
   <title>Browsing History Sessions</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
+
+    /* Flexbox styles for the header */
+    .header-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px; /* Space below the header */
+    }
+    .header-container h2 {
+      margin: 0;
+      margin-right: 20px; /* Adjust spacing between heading and link */
+    }
+    .header-container a {
+      font-size: 1em;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -67,8 +81,10 @@
   </style>
 </head>
 <body>
-  <h2>Your Browsing Sessions</h2>
-  <a href="settings.html" target="_blank">Settings</a>  
+  <div class="header-container">
+    <h2>Your Browsing Sessions</h2>
+    <a href="settings.html" target="_blank">Settings</a>
+  </div>
   <table>
     <colgroup>
       <col class="column-time">
