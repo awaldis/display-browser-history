@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let sessions = [];
       let currentSession = null;
 
+      // Group each individual history item into a "session"
       for (let i = 0; i < historyItems.length; i++) {
         const item = historyItems[i];
 
