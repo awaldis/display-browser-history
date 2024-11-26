@@ -1,45 +1,9 @@
+import { roundDownToNearestMinute, roundUpToNearestMinute } from './dateUtils.js';
+
 document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
 
-  // Function to round down to the nearest minute
-  function roundDownToNearestMinute(date) {
-    return new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      date.getHours(),
-      date.getMinutes(),
-      0,
-      0
-    );
-  }
-
-  // Function to round up to the nearest minute
-  function roundUpToNearestMinute(date) {
-    if (date.getSeconds() === 0 && date.getMilliseconds() === 0) {
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        0,
-        0
-      );
-    } else {
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes() + 1,
-        0,
-        0
-      );
-    }
-  }
-
-  // Function to load and display browsing sessions
+    // Function to load and display browsing sessions
   async function loadHistorySessions() {
     console.log("Loading history data...");
 
@@ -64,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       let sessions = [];
       let currentSession = null;
+      let previousItemTime = null;
 
       // Group each individual history item into a "session"
       for (let i = 0; i < historyItems.length; i++) {
