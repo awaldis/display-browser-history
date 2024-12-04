@@ -1,11 +1,11 @@
-// sessionDisplay.js
+// Contains the code for the "displaySessions" function and nothing else.
 
 import { roundDownToNearestMinute, roundUpToNearestMinute } from './dateUtils.js';
 
 /**
- * Displays sessions in the provided DOM element.
- * @param {Array} sessions - The array of session objects.
- * @param {HTMLElement} historyList - The DOM element where sessions will be displayed.
+ * Displays browsing sessions in the provided DOM element.
+ * @param {Array} sessions - The array of browsing session objects.
+ * @param {HTMLElement} historyList - The DOM element where browsing sessions will be displayed.
  */
 export function displaySessions(sessions, historyList) {
   sessions.forEach((session) => {
