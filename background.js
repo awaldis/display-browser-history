@@ -10,7 +10,7 @@ browser.browserAction.onClicked.addListener(() => {
 
 // Event listener for when a new page is visited
 // (added to the browsing history)
-browser.history.onVisited.addListener((historyItem) => {
+browser.history.onVisited.addListener(() => {
   // Send a message to the history page to refresh
   browser.runtime.sendMessage({ command: "refreshHistory" });
 });
