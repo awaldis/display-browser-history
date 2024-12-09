@@ -7,9 +7,8 @@
   "browser_action": {
     "default_title": "History Access",
     "default_icon": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
+      "48": "icons/browser_history_icon_48x48.png",
+      "96": "icons/browser_history_icon_96x96.png"
     }
   },
   "background": {
