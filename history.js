@@ -13,12 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       // Fetch the user-defined session interval (default to 5 minutes)
-      const storageResult = await browser.storage.local.get("sessionInterval");
+      let storageResult = await browser.storage.local.get("sessionInterval");
       const sessionInterval = storageResult.sessionInterval || 5;
       console.log(`Using session interval: ${sessionInterval} minutes`);
 
+      // Fetch the user-defined maxResults (default to 300)
+      storageResult = await browser.storage.local.get("maxResults");
+      const maxResults = storageResult.maxResults || 300;
+      console.log(`Using maxResults: ${maxResults}`);
+
       // Fetch recent history items
-      let historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: 300 });
+      let historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
       console.log("History items fetched:", historyItems);
 
       // Process history items into sessions

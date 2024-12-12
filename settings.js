@@ -4,7 +4,8 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     const sessionIntervalInput = document.getElementById("sessionInterval");
-    const saveButton = document.getElementById("saveButton");
+    const saveButton           = document.getElementById("saveButton");
+    const maxResultsInput      = document.getElementById("maxResults");
   
     // Load the saved session interval from browser storage and
     // populate the input field    
@@ -13,7 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionIntervalInput.value = result.sessionInterval;
       }
     });
-  
+
+    // Load the saved maxResults from browser storage and populate the input field
+    browser.storage.local.get("maxResults").then((result) => {
+      if (result.maxResults) {
+        maxResultsInput.value = result.maxResults;
+      }
+    });
+
     // Save the session interval when the "Save" button is clicked
     saveButton.addEventListener("click", () => {
       const interval = parseInt(sessionIntervalInput.value, 10);
@@ -23,10 +31,21 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Please enter a valid number greater than 0.");
         return;
       }
-      
       // Store the new session interval in browser storage
       browser.storage.local.set({ sessionInterval: interval }).then(() => {
         alert("Session interval saved.");
+      });
+
+      const maxResults = parseInt(maxResultsInput.value, 10);
+
+      if (isNaN(maxResults) || maxResults < 1) {
+        alert("Please enter a valid number greater than 0.");
+        return;
+      }
+  
+      // Store the new max results value in browser storage
+      browser.storage.local.set({ maxResults: maxResults }).then(() => {
+        alert("Settings saved.");
       });
     });
   });
