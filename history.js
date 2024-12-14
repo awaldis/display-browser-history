@@ -15,12 +15,19 @@ document.addEventListener("DOMContentLoaded", function () {
       // Fetch the user-defined session interval (default to 5 minutes)
       let storageResult = await browser.storage.local.get("sessionInterval");
       const sessionInterval = storageResult.sessionInterval || 5;
-      console.log(`Using session interval: ${sessionInterval} minutes`);
-
+    
       // Fetch the user-defined maxResults (default to 300)
       storageResult = await browser.storage.local.get("maxResults");
       const maxResults = storageResult.maxResults || 300;
+
+      // Fetch fetchFavicons setting (default to true)
+      storageResult = await browser.storage.local.get("fetchFavicons");
+      const fetchFavicons = (typeof storageResult.fetchFavicons === "boolean") ? 
+                              storageResult.fetchFavicons : true;
+
+      console.log(`Using session interval: ${sessionInterval} minutes`);
       console.log(`Using maxResults: ${maxResults}`);
+      console.log(`Fetch Favicons setting: ${fetchFavicons}`);
 
       // Fetch recent history items
       let historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
@@ -30,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const sessions = createSessions(historyItems, sessionInterval);
 
       // Display the sessions
-      displaySessions(sessions, historyList);
+      displaySessions(sessions, historyList, fetchFavicons);
 
     } catch (error) {
       console.error("Error fetching history data:", error);

@@ -6,8 +6,9 @@ import { roundDownToNearestMinute, roundUpToNearestMinute } from './dateUtils.js
  * Displays browsing sessions in the provided DOM element.
  * @param {Array} sessions - The array of browsing session objects.
  * @param {HTMLElement} historyList - The DOM element where browsing sessions will be displayed.
+ * @param {boolean} fetchFavicons
  */
-export function displaySessions(sessions, historyList) {
+export function displaySessions(sessions, historyList, fetchFavicons) {
   sessions.forEach((session) => {
     // Convert startTime and endTime to Date objects
     const startDate = new Date(session.startTime);
@@ -22,17 +23,8 @@ export function displaySessions(sessions, historyList) {
     const durationMinutes = Math.round(durationMs / (60 * 1000));
     const durationText = durationMinutes === 1 ? 'minute' : 'minutes';
 
-    // Formatting options
-    const timeOptions = {
-      hour: 'numeric',
-      minute: 'numeric'
-    };
-
-    const dateOptions = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    };
+    const timeOptions = { hour: 'numeric', minute: 'numeric' };
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
     const startTimeStr = roundedStartDate.toLocaleTimeString(undefined, timeOptions);
     const endTimeStr = roundedEndDate.toLocaleTimeString(undefined, timeOptions);
@@ -66,33 +58,32 @@ export function displaySessions(sessions, historyList) {
       // Create a new table row
       const row = document.createElement("tr");
 
-      // 1. Last Visited cell
+      // Time cell
       const timeCell = document.createElement("td");
       const visitDate = new Date(item.lastVisitTime);
-      const visitTime = visitDate.toLocaleString();
-      timeCell.textContent = visitTime;
+      timeCell.textContent = visitDate.toLocaleString();
 
-      // 2. Title cell
+      // Title cell
       const titleCell = document.createElement("td");
       titleCell.classList.add("title-cell");
 
-      // Create the favicon image element
-      const faviconImg = document.createElement("img");
-      faviconImg.classList.add("favicon");
+      // Conditionally create favicon image element if fetchFavicons is true
+      if (fetchFavicons) {
+        const faviconImg = document.createElement("img");
+        faviconImg.classList.add("favicon");
 
-      // Construct the favicon URL using Google's favicon service
-      const faviconUrl = "https://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(item.url);
-      faviconImg.src = faviconUrl;
-      faviconImg.alt = ""; // Decorative image
+        // Construct the favicon URL using Google's service
+        const faviconUrl = "https://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(item.url);
+        faviconImg.src = faviconUrl;
+        faviconImg.alt = ""; // Decorative image
+        titleCell.appendChild(faviconImg);
+      }
 
       // Create the title text node
       const titleText = document.createTextNode(item.title || "No Title");
-
-      // Append the favicon and title text to the title cell
-      titleCell.appendChild(faviconImg);
       titleCell.appendChild(titleText);
 
-      // 3. URL cell
+      // URL cell
       const urlCell = document.createElement("td");
       urlCell.textContent = item.url;
 

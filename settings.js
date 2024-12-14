@@ -1,52 +1,57 @@
-// This script implements the storage and retrieval of settings
-// for the browser history extension.  It is intended to interact
-// with a settings HTML page.
-
 document.addEventListener("DOMContentLoaded", function () {
-    const sessionIntervalInput = document.getElementById("sessionInterval");
-    const saveButton           = document.getElementById("saveButton");
-    const maxResultsInput      = document.getElementById("maxResults");
-  
-    // Load the saved session interval from browser storage and
-    // populate the input field    
-    browser.storage.local.get("sessionInterval").then((result) => {
-      if (result.sessionInterval) {
-        sessionIntervalInput.value = result.sessionInterval;
-      }
-    });
+  const sessionIntervalInput = document.getElementById("sessionInterval");
+  const maxResultsInput      = document.getElementById("maxResults");
+  const fetchFaviconsInput   = document.getElementById("fetchFavicons");
+  const saveButton           = document.getElementById("saveButton");
 
-    // Load the saved maxResults from browser storage and populate the input field
-    browser.storage.local.get("maxResults").then((result) => {
-      if (result.maxResults) {
-        maxResultsInput.value = result.maxResults;
-      }
-    });
+  // Load the saved session interval from browser storage and
+    // populate the input field
+  browser.storage.local.get("sessionInterval").then((result) => {
+    if (result.sessionInterval) {
+      sessionIntervalInput.value = result.sessionInterval;
+    }
+  });
 
-    // Save the session interval when the "Save" button is clicked
-    saveButton.addEventListener("click", () => {
-      const interval = parseInt(sessionIntervalInput.value, 10);
+  // Load the saved maxResults from browser storage and populate the input field
+  browser.storage.local.get("maxResults").then((result) => {
+    if (result.maxResults) {
+      maxResultsInput.value = result.maxResults;
+    }
+  });
 
-      // Validate the input to ensure it's a positive integer
-      if (isNaN(interval) || interval < 1) {
-        alert("Please enter a valid number greater than 0.");
-        return;
-      }
-      // Store the new session interval in browser storage
-      browser.storage.local.set({ sessionInterval: interval }).then(() => {
-        alert("Session interval saved.");
-      });
+  // Load the saved fetchFavicons setting (default true)
+  browser.storage.local.get("fetchFavicons").then((result) => {
+    if (typeof result.fetchFavicons === "boolean") {
+      fetchFaviconsInput.checked = result.fetchFavicons;
+    } else {
+      fetchFaviconsInput.checked = true; // default
+    }
+  });
 
-      const maxResults = parseInt(maxResultsInput.value, 10);
+  // Save settings when "Save" is clicked
+  saveButton.addEventListener("click", () => {
+    const interval = parseInt(sessionIntervalInput.value, 10);
+    if (isNaN(interval) || interval < 1) {
+      alert("Please enter a valid number greater than 0 for the session interval.");
+      return;
+    }
 
-      if (isNaN(maxResults) || maxResults < 1) {
-        alert("Please enter a valid number greater than 0.");
-        return;
-      }
-  
-      // Store the new max results value in browser storage
-      browser.storage.local.set({ maxResults: maxResults }).then(() => {
-        alert("Settings saved.");
-      });
+    const maxResults = parseInt(maxResultsInput.value, 10);
+    if (isNaN(maxResults) || maxResults < 1) {
+      alert("Please enter a valid number greater than 0 for the max results.");
+      return;
+    }
+
+    const fetchFavicons = fetchFaviconsInput.checked;
+
+    // Store any new values in browser storage
+
+    browser.storage.local.set({
+      sessionInterval: interval,
+      maxResults: maxResults,
+      fetchFavicons: fetchFavicons
+    }).then(() => {
+      alert("Settings saved.");
     });
   });
-  
+});
