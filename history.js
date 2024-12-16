@@ -1,5 +1,9 @@
 import { createSessions } from './historyProcessor.js';
 import { displaySessions } from './sessionDisplay.js';
+import { getMockHistoryItems } from './getMockHistoryItems.js';
+
+// Toggle this to `true` when testing and `false` for normal operation
+const useMockHistoryItems = false;
 
 document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
@@ -29,9 +33,16 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(`Using maxResults: ${maxResults}`);
       console.log(`Fetch Favicons setting: ${fetchFavicons}`);
 
-      // Fetch recent history items
-      let historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
-      console.log("History items fetched:", historyItems);
+      let historyItems;
+
+      if (useMockHistoryItems) {
+        // For testing or demo
+        historyItems = getMockHistoryItems();
+      } else {
+        // Use real history items
+        historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
+        console.log("History items fetched:", historyItems);
+      }
 
       // Process history items into sessions
       const sessions = createSessions(historyItems, sessionInterval);
