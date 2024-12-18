@@ -33,15 +33,34 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(`Using maxResults: ${maxResults}`);
       console.log(`Fetch Favicons setting: ${fetchFavicons}`);
 
-      let historyItems;
+      let historyItems = [];
 
       if (useMockHistoryItems) {
         // For testing or demo
         historyItems = getMockHistoryItems();
       } else {
         // Use real history items
-        historyItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
+        const uniqueHistoryItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
         console.log("History items fetched:", historyItems);
+
+        // Calculate the timestamp for 24 hours ago
+        const now = Date.now();
+        const twentyFourHoursAgo = now - (24 * 60 * 60 * 1000);
+
+        for (const item of uniqueHistoryItems) {
+          const visits = await browser.history.getVisits({ url: item.url });
+  
+          // Filter the visits to include only those within the last 24 hours
+          const recentVisits = visits.filter(visit => visit.visitTime >= twentyFourHoursAgo);
+  
+          for (const visit of recentVisits) {
+            historyItems.push({
+              url:           item.url,
+              title:         item.title,
+              lastVisitTime: visit.visitTime
+            });
+          }
+        }
       }
 
       // Process history items into sessions
