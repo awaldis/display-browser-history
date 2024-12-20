@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let storageResult = await browser.storage.local.get("sessionInterval");
       const sessionInterval = storageResult.sessionInterval || 5;
     
-      // Fetch the user-defined maxResults (default to 300)
+      // Fetch the user-defined maxResults (default to 24)
       storageResult = await browser.storage.local.get("maxResults");
-      const maxResults = storageResult.maxResults || 300;
+      const maxResults = storageResult.maxResults || 24;
 
       // Fetch fetchFavicons setting (default to true)
       storageResult = await browser.storage.local.get("fetchFavicons");
@@ -33,6 +33,11 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(`Using maxResults: ${maxResults}`);
       console.log(`Fetch Favicons setting: ${fetchFavicons}`);
 
+      // Calculate the timestamp for the oldest history item we want to display
+      // TODO: better name for "maxResults"
+      const now = Date.now();
+      const oldestHistoryItemTime = now - (maxResults * 60 * 60 * 1000);
+
       let historyItems = [];
 
       if (useMockHistoryItems) {
@@ -40,18 +45,22 @@ document.addEventListener("DOMContentLoaded", function () {
         historyItems = getMockHistoryItems();
       } else {
         // Use real history items
-        const uniqueHistoryItems = await browser.history.search({ text: "", startTime: 0, maxResults: maxResults });
-        console.log("History items fetched:", historyItems);
+        // "maxResults" defaults to 100 if not specified.  This is too low
+        // for this application.  Therefore, a high value needs to be
+        // explicitly specified to allow all the items allowed by
+        // "oldestHistoryItemTime" to be returned.
+        const uniqueHistoryItems = await browser.history.search({
+          text: "",
+          startTime: oldestHistoryItemTime,
+          maxResults: 2000 });
 
-        // Calculate the timestamp for 24 hours ago
-        const now = Date.now();
-        const twentyFourHoursAgo = now - (24 * 60 * 60 * 1000);
+        console.log("History items fetched:", historyItems);
 
         for (const item of uniqueHistoryItems) {
           const visits = await browser.history.getVisits({ url: item.url });
   
-          // Filter the visits to include only those within the last 24 hours
-          const recentVisits = visits.filter(visit => visit.visitTime >= twentyFourHoursAgo);
+          // Filter the visits to include only those more recent than the oldest time allowed
+          const recentVisits = visits.filter(visit => visit.visitTime >= oldestHistoryItemTime);
   
           for (const visit of recentVisits) {
             historyItems.push({
