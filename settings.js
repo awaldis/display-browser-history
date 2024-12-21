@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const sessionIntervalInput = document.getElementById("sessionInterval");
-  const maxResultsInput      = document.getElementById("maxResults");
+  const lookbackDurationInput      = document.getElementById("lookbackDuration");
   const fetchFaviconsInput   = document.getElementById("fetchFavicons");
   const saveButton           = document.getElementById("saveButton");
 
@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Load the saved maxResults from browser storage and populate the input field
-  browser.storage.local.get("maxResults").then((result) => {
-    if (result.maxResults) {
-      maxResultsInput.value = result.maxResults;
+  // Load the saved lookbackDuration from browser storage and populate the input field
+  browser.storage.local.get("lookbackDuration").then((result) => {
+    if (result.lookbackDuration) {
+      lookbackDurationInput.value = result.lookbackDuration;
     }
   });
 
@@ -36,9 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const maxResults = parseInt(maxResultsInput.value, 10);
-    if (isNaN(maxResults) || maxResults < 1) {
-      alert("Please enter a valid number greater than 0 for the max results.");
+    const lookbackDuration = parseInt(lookbackDurationInput.value, 10);
+    if (isNaN(lookbackDuration) || lookbackDuration < 1) {
+      alert("Please enter a valid number greater than 0 for the lookback duration.");
       return;
     }
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     browser.storage.local.set({
       sessionInterval: interval,
-      maxResults: maxResults,
+      lookbackDuration: lookbackDuration,
       fetchFavicons: fetchFavicons
     }).then(() => {
       alert("Settings saved.");

@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let storageResult = await browser.storage.local.get("sessionInterval");
       const sessionInterval = storageResult.sessionInterval || 5;
     
-      // Fetch the user-defined maxResults (default to 24)
-      storageResult = await browser.storage.local.get("maxResults");
-      const maxResults = storageResult.maxResults || 24;
+      // Fetch the user-defined lookbackDuration (default to 24)
+      storageResult = await browser.storage.local.get("lookbackDuration");
+      const lookbackDuration = storageResult.lookbackDuration || 24;
 
       // Fetch fetchFavicons setting (default to true)
       storageResult = await browser.storage.local.get("fetchFavicons");
@@ -30,13 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
                               storageResult.fetchFavicons : true;
 
       console.log(`Using session interval: ${sessionInterval} minutes`);
-      console.log(`Using maxResults: ${maxResults}`);
+      console.log(`Using lookbackDuration: ${lookbackDuration}`);
       console.log(`Fetch Favicons setting: ${fetchFavicons}`);
 
       // Calculate the timestamp for the oldest history item we want to display
-      // TODO: better name for "maxResults"
       const now = Date.now();
-      const oldestHistoryItemTime = now - (maxResults * 60 * 60 * 1000);
+      const oldestHistoryItemTime = now - (lookbackDuration * 60 * 60 * 1000);
 
       let historyItems = [];
 
