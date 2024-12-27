@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "History Access Extension",
+  "name": "Browser Session History Display",
   "version": "1.0",
-  "description": "An extension to display browsing history on an extension page.",
+  "description": "Aggregate and display web browsing session history on a browser tab.",
   "permissions": ["history", "tabs", "storage"],
   "browser_action": {
-    "default_title": "History Access",
+    "default_title": "Browser Session History",
     "default_icon": {
       "48": "icons/browser_history_icon_48x48.png",
       "96": "icons/browser_history_icon_96x96.png"
