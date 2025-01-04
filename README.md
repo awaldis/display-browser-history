@@ -9,3 +9,9 @@ This extension has not yet been submitted to Mozilla for signing. To use it, you
 ### Compatibility
 
 This extension has been developed and tested exclusively with Firefox.
+
+### Screenshot
+
+Below is a screenshot of the extension in action:
+
+![Browser Session Screenshot](browserSessionScreenshot.png)
