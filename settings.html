@@ -4,28 +4,83 @@
   <meta charset="UTF-8">
   <title>Settings for Browser Session History Display Extension</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    label { display: block; margin-bottom: 10px; }
-    input[type="number"] { width: 60px; }
-    button { margin-top: 10px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    
+    /* Container for each setting row */
+    .settingRow {
+      margin-bottom: 20px;
+    }
+    
+    /* Keep label and input/checkbox on the same line */
+    .settingRow label {
+      display: inline-block;
+      margin-right: 10px;
+      font-weight: bold;
+      vertical-align: middle;
+    }
+    
+    .settingRow input[type="number"] {
+      width: 60px;
+      vertical-align: middle;
+    }
+    
+    .explanation {
+      margin-top: 5px;
+      font-size: 0.9em;
+      color: #444;
+      max-width: 500px;       /* limit the paragraph width */
+      word-wrap: break-word;  /* ensures wrapping for long lines/words */
+      white-space: normal;    /* normal white-space handling */
+    }
+    
+    button {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h2>Settings for Browser Session History Display Extension</h2>
-  <label>
-    Session Break Determination Interval (minutes):
+  
+  <!-- Session Interval -->
+  <div class="settingRow">
+    <label for="sessionInterval">Session Break Determination Interval (minutes):</label>
     <input type="number" id="sessionInterval" min="1" value="5">
-  </label>
-  <label>
-    Look Back Duration (hours):
+    <p class="explanation">
+      This setting determines the length of inactivity (in minutes) required
+      before the extension determines the start of a new browsing session.
+      For example, if you set this to 5, any gap of 5 minutes or more
+      between site visits will create a new session.
+    </p>
+  </div>
+  
+  <!-- Lookback Duration -->
+  <div class="settingRow">
+    <label for="lookbackDuration">Look Back Duration (hours):</label>
     <input type="number" id="lookbackDuration" min="1" value="24">
-  </label>
-  <label>
-    Fetch Favicons from Google:
+    <p class="explanation">
+      This tells the extension how far back (in hours) to go when collecting
+      and displaying your browser history. If you set this to 24, the extension
+      will only show data from the past 24 hours.  If this value is set too high
+      then the extension startup and updates may become unacceptably slow. 
+    </p>
+  </div>
+  
+  <!-- Fetch Favicons -->
+  <div class="settingRow">
+    <label for="fetchFavicons">Fetch Favicons from Google:</label>
     <input type="checkbox" id="fetchFavicons" checked>
-  </label>
+    <p class="explanation">
+      When checked, the extension will retrieve the small icon (favicon)
+      associated with each site via Google's favicon service. Uncheck if you prefer
+      not to use this feature or if you encounter loading/performance issues.
+    </p>
+  </div>
+  
   <button id="saveButton">Save</button>
-
+  
   <script src="settings.js"></script>
 </body>
 </html>
