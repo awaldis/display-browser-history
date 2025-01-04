@@ -14,4 +14,5 @@ This extension has been developed and tested exclusively with Firefox.
 
 Below is a screenshot of the extension in action:
 
-![Browser Session Screenshot](browserSessionScreenshot.png)
+![Browser Session Screenshot](screenshots/browserSessionScreenshot.png)
+![Browser Session Screenshot](screenshots/browserSessionSettingsScreenshot.png)
