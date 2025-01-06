@@ -1,0 +1,21 @@
+The Extension reads your existing Firefox browser history to organize
+visited websites into sessions.
+
+Default Behavior:
+- No browsing history data is transmitted to external servers or stored
+anywhere else outside your local Firefox browser environment. All
+session creation and display happens locally on your device.
+
+- Other than browsing history, no personal data, credentials, or other
+private information is accessed by the Extension.
+
+OPTIONAL Exception to Default Behavior:
+- The "Fetch Favicons from Google" feature is disabled upon installation.
+However, the user may choose to enable it in the Extension's Settings.
+When the Fetch Favicons feature is enabled, the Extension sends requests
+to Google’s favicon service for the icons associated with each website
+in your history. These requests include the domain of the website in
+question so Google can return the corresponding favicon.
+- The "Fetch Favicons from Google" feature is included for aesthetic
+purposes only.  The Extension is fully functional when it is disabled.
+When it is disabled, no requests are sent to Google.
