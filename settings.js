@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (typeof result.fetchFavicons === "boolean") {
       fetchFaviconsInput.checked = result.fetchFavicons;
     } else {
-      fetchFaviconsInput.checked = true; // default
+      fetchFaviconsInput.checked = false; // default
     }
   });
 
