@@ -4,6 +4,11 @@
   "version": "1.0",
   "description": "Aggregate and display web browsing session history on a browser tab.",
   "permissions": ["history", "tabs", "storage"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "browser_sess_ext@andrewwaldis.com"
+     }
+  },
   "browser_action": {
     "default_title": "Browser Session History",
     "default_icon": {
