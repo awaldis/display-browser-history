@@ -3,7 +3,7 @@
 // Event listener for when the extension's icon is clicked
 browser.browserAction.onClicked.addListener(async () => {
   // URL to the extension's display page
-  const extensionUrl = browser.runtime.getURL("history.html");
+  const extensionUrl = browser.runtime.getURL("browsing_sessions.html");
 
   // Query for any tabs currently open to the extension URL
   const tabs = await browser.tabs.query({ url: extensionUrl });
