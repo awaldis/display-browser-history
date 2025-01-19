@@ -98,4 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
       loadHistorySessions(); // Reload the history
     }
   });
+
+  // Listen for clicks on the "Settings" button
+  const openSettingsButton = document.getElementById("openSettingsButton");
+  openSettingsButton.addEventListener("click", () => {
+    window.open("settings.html", "_blank");
+  });
 });
