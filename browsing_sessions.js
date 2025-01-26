@@ -101,7 +101,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Listen for clicks on the "Settings" button
   const openSettingsButton = document.getElementById("openSettingsButton");
-  openSettingsButton.addEventListener("click", () => {
-    window.open("settings.html", "_blank");
+  openSettingsButton.addEventListener("click", async () => {
+    // Build the extension URL for settings.html
+    const settingsUrl = browser.runtime.getURL("settings.html");
+
+    // Query all tabs to find one that matches our settings URL
+    const tabs = await browser.tabs.query({ url: settingsUrl });
+
+    if (tabs.length > 0) {
+      // If found, activate that tab and focus its window
+      const existingTab = tabs[0];
+      await browser.tabs.update(existingTab.id, { active: true });
+      await browser.windows.update(existingTab.windowId, { focused: true });
+    } else {
+      // Otherwise, create a new tab for settings.html
+      await browser.tabs.create({ url: settingsUrl });
+    }
   });
 });
