@@ -95,13 +95,5 @@ export function displaySessions(sessions, historyList, fetchFavicons) {
       // Append row to the table body
       historyList.appendChild(row);
     });
-
-    // Add a separator after each session (optional)
-    const separatorRow = document.createElement("tr");
-    const separatorCell = document.createElement("td");
-    separatorCell.colSpan = 3;
-    separatorCell.innerHTML = "&nbsp;";
-    separatorRow.appendChild(separatorCell);
-    historyList.appendChild(separatorRow);
   });
 }
