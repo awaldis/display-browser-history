@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Fetch fetchFavicons setting (default to true)
       storageResult = await browser.storage.local.get("fetchFavicons");
       const fetchFavicons = (typeof storageResult.fetchFavicons === "boolean") ? 
-                              storageResult.fetchFavicons : true;
+                              storageResult.fetchFavicons : false;
 
       console.log(`Using session interval: ${sessionInterval} minutes`);
       console.log(`Using lookbackDuration: ${lookbackDuration}`);
