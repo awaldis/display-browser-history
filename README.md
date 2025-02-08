@@ -4,7 +4,10 @@ This repository contains the code for a Firefox browser extension that reads you
 
 ### Installation
 
-This extension has not yet been submitted to Mozilla for signing. To use it, you must install it as a temporary extension via [about:debugging](about:debugging#/runtime/this-firefox). Select "manifest.json".
+This extension is available on the Firefox Browser Add-On Marketplace here:
+https://addons.mozilla.org/en-US/firefox/addon/browser-session-display
+
+ Using the code in this repo, you can also install it as a temporary extension via [about:debugging](about:debugging#/runtime/this-firefox). Select "manifest.json".
 
 ### Compatibility
 
